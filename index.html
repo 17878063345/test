@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+
+    <!-- 浏览器适配 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <!-- 引入异步获取数据，注意跨网域问题 -->
+
+    <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <script type="text/javascript" src="js/axios.min.js"></script>
+    <script src="js/vue.js"></script>
+    <!-- 引入样式 -->
+    <title>天气预报</title>
+     <link rel="stylesheet" href="CSS/css.css" /> 
+</head>
+<body>
+    <div id="app">
+        <header>城市·{{ message["city"] }}</header>
+        <main class="nav">
+            <p style="font-size: 19px;margin-top: 5px;">{{message.data[0].date}} &nbsp {{message.data[0].week}}  </p>
+            <p style="font-size: 25px;margin-top: 15px;margin-left: 170px;">{{message.data[0].tem}}  </p>
+            <img :src="this.getImg(message.data[0].wea)" alt="qing.png" style="margin-top: -15px;height: 110px;width: 135px;" >
+            <p>{{ message.data[0].wea }}</p>   
+            <p>空气质量：{{message.data[0].air_level}}</p>
+            <p >{{message.data[0].tem2}}~{{message.data[0].tem1}}</p>
+            <p>{{message.data[0].win[0]}} {{message.data[0].win_speed}}</p>      
+            <p>{{message.data[0].air_tips}}</p>
+        </main>
+        <footer>
+            <section>
+                <img :src="this.getImg(message.data[1].wea)" alt="" style="height: 60px; width: 75px;">
+                <p>{{message.data[1].week}}</p>
+                <p>{{message.data[1].tem2}}~{{message.data[1].tem1}}</p>
+                <p>{{ message.data[1].wea }}</p>
+                <p>{{message.data[1].win_speed}} </p>
+            </section>
+            <section>
+                <img :src="this.getImg(message.data[2].wea)" alt="" style="height: 60px; width: 75px;">
+                <p>{{message.data[2].week}}</p>
+                <p>{{message.data[2].tem2}}~{{message.data[2].tem1}}</p>
+                <p>{{ message.data[2].wea }}</p>
+                <p>{{message.data[2].win_speed}}</p>
+            </section>
+            <section>
+                <img :src="this.getImg(message.data[3].wea)" alt="" style="height: 60px; width: 75px;">
+                <p>{{message.data[3].week}}</p>
+                <p>{{message.data[3].tem2}}~{{message.data[3].tem1}}</p>
+                <p>{{ message.data[3].wea }}</p>
+                <p>{{message.data[3].win_speed}}</p>
+            </section>
+            <section>
+                <img :src="this.getImg(message.data[4].wea)" alt="" style="height: 60px; width: 75px;">
+                <p>{{message.data[4].week}}</p>
+                <p>{{message.data[4].tem2}}~{{message.data[4].tem1}}</p>
+                <p>{{ message.data[4].wea }}</p>
+                <p>{{message.data[4].win_speed}}</p>
+            </section>            
+            <section style="border-right: none;">
+                <img :src="this.getImg(message.data[5].wea)" alt="" style="height: 60px; width: 75px;">
+                <p>{{message.data[5].week}}</p>
+                <p>{{message.data[5].tem2}}~{{message.data[5].tem1}}</p>
+                <p>{{ message.data[5].wea }}</p>
+                <p>{{message.data[5].win_speed}}</p>
+            </section>
+        </footer>
+    </div>
+
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                weatherList: [],
+                message: "",
+                tianqi:[],
+            },
+
+            mounted: function(){ //声明周期函数构造方法
+                axios({
+                    method: "get",
+                    url:"https://tianqiapi.com/api?version=v1&appid=14387773&appsecret=hjn8vUzL"
+                }).then(function(response) {
+                    console.log(response);
+                    this.weatherList= response;
+                    console.log(response.data);
+                    this.message = response.data;
+                }.bind(this));
+            }
+            ,methods:{
+                getImg(e){
+                    return "images/"+e+".png";
+                }
+            }
+            
+        })
+    </script>
+    <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+    <script src="lib/jquery/jquery-1.11.0.min.js"></script>
+    <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
+    <script src="lib/bootstrap/js/bootstrap.min.js"></script>
+    
+</body>
+</html>
